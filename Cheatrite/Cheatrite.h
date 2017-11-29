@@ -30,4 +30,6 @@ public:
 	void run();
 private:
 	string champion;
+	int screenX;
+	int screenY;
 };
