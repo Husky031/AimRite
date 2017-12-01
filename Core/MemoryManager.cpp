@@ -65,6 +65,7 @@ MemoryManager::MemoryManager()
 	/* Get base addresses of modules */
 	Battlerite_Base = NULL;
 	MonoDll_Base = NULL;
+	FmodstudioDLL_Base = NULL;
 	while (!Battlerite_Base || !MonoDll_Base)
 	{
 		/* Find module of the executable */
@@ -78,6 +79,10 @@ MemoryManager::MemoryManager()
 			{
 				MonoDll_Base = (unsigned int)moduleEntry_.modBaseAddr;
 			}
+			if (!strcmp((const char*)moduleEntry_.szModule, FMODSTUDIO_DLL.c_str()))
+			{
+				FmodstudioDLL_Base = (unsigned int)moduleEntry_.modBaseAddr;
+			}
 		} while (Module32Next(moduleSnapshotHandle_, &moduleEntry_));
 
 		if (!Battlerite_Base)
@@ -90,7 +95,13 @@ MemoryManager::MemoryManager()
 			std::cout << "Failed to find module " << MONO_DLL << std::endl;
 			Sleep(200);
 		}
+		else if (!FmodstudioDLL_Base)
+		{
+			std::cout << "Failed to find module " << FmodstudioDLL_Base << std::endl;
+			Sleep(200);
+		}
 	}
 	std::cout << BATTLERITE_EXE << " = " << Battlerite_Base << std::endl;
 	std::cout << MONO_DLL << " = " << MonoDll_Base << std::endl;
+	std::cout << FMODSTUDIO_DLL << " = " << FmodstudioDLL_Base << std::endl;
 }

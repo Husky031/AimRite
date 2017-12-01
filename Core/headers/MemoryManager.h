@@ -13,10 +13,12 @@ private:
 	DWORD PID;		// process ID
 	const std::string BATTLERITE_EXE = "Battlerite.exe";
 	const std::string MONO_DLL = "mono.dll";
+	const std::string FMODSTUDIO_DLL = "fmodstudio.dll";
 public:
 	HANDLE handle;
 	DWORD Battlerite_Base;
 	DWORD MonoDll_Base;
+	DWORD FmodstudioDLL_Base;
 
   template<class c>
   c Read(DWORD dwAddress)

@@ -3,12 +3,8 @@
 Cheatrite::Cheatrite(string champ)
 {
 	this->champion = champ;
-	
-	RECT desktop;
-	const HWND hDesktop = GetDesktopWindow();
-	GetWindowRect(hDesktop, &desktop);
-	this->screenX = desktop.right;
-	this->screenX = desktop.bottom;
+	this->screenX = GetSystemMetrics(SM_CXSCREEN);
+	this->screenY = GetSystemMetrics(SM_CYSCREEN);
 }
 
 Cheatrite::~Cheatrite()
@@ -45,7 +41,6 @@ void Cheatrite::run()
 	cout << "Window found!" << endl << endl;
 
 	PlayerInformation playerInformation[20];
-
 
 	while (window.WindowExists())
 	{
@@ -129,7 +124,7 @@ void Cheatrite::run()
 		PlayerInformation localPlayer;
 
 		// Get local players coordinates
-		DWORD a1 = memory.Read<DWORD>(memory.Battlerite_Base + OFFSET_LOCAL_PLAYER[0]);
+		DWORD a1 = memory.Read<DWORD>(memory.FmodstudioDLL_Base + OFFSET_LOCAL_PLAYER[0]);
 		DWORD a2 = memory.Read<DWORD>(a1 + OFFSET_LOCAL_PLAYER[1]);
 		DWORD a3 = memory.Read<DWORD>(a2 + OFFSET_LOCAL_PLAYER[2]);
 		DWORD a4 = memory.Read<DWORD>(a3 + OFFSET_LOCAL_PLAYER[3]);
@@ -137,6 +132,7 @@ void Cheatrite::run()
 
 		localPlayer.x = memory.Read<float>(a5 + OFFSET_LOCAL_X);
 		localPlayer.y = memory.Read<float>(a5 + OFFSET_LOCAL_Y);
+
 
 		// Get champion list
 		DWORD b1 = memory.Read<DWORD>(memory.MonoDll_Base + OFFSET_CHAMPION_LIST[0]);
@@ -168,7 +164,7 @@ void Cheatrite::run()
 		for (int i = 0; i < 10; i++)
 		{
 			ChampionInformation champion = memory.Read<ChampionInformation>(b5 + OFFSET_CHAMPION_START + i * CHAMPION_SIZE);
-
+			
 			// Ignore other teams
 			if (champion.team != TEAM_1 && champion.team != TEAM_2)
 				continue;
@@ -193,7 +189,7 @@ void Cheatrite::run()
 			if (champion.currentHP <= 0.f)
 				continue;
 
-			// Ignore entities that are really far away
+			// Ignore champions that are really far away
 			if (distanceToTarget > (cameraLocked ? 200.f : 254.f))
 				continue;
 
@@ -645,6 +641,7 @@ void Cheatrite::run()
 			}
 		}
 
+
 		if (enableAimbot)
 		{
 			// The aimbot
@@ -654,6 +651,12 @@ void Cheatrite::run()
 				// Movement prediction
 				float dx = targetEnemy.x + targetEnemy.velocityX * 5 - localPlayer.x;
 				float dy = targetEnemy.y + targetEnemy.velocityY * 5 - localPlayer.y;
+
+				//std::cout << "Local : " << localPlayer.x << " " << localPlayer.y << std::endl;
+				//std::cout << "Target : " << targetEnemy.x << " " << targetEnemy.y << std::endl;
+				//std::cout << "Screen : " << screenX << " " << screenY << std::endl;
+				//std::cout << "Offset : " << offset << std::endl;
+				//std::cout << "Multiplier : " << multiplier << std::endl;
 
 				Vector2 vec = window.GetWindowPosition();
 
