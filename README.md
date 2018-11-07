@@ -34,3 +34,8 @@ Note : if Battlerite has updated since the last commit then it's quite likely th
 
 ~~Auto Ex Stealth -> if an ally is alive near you (or no alive allies are near you) and enemy is near OR if projectile is going to hit you~~
 I recently updated ```Offsets.hpp``` for aimbot only and removed all script code for now..
+
+
+# Coming Soon
+Anti counter
+Jade scripts
