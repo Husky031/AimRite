@@ -13,4 +13,4 @@ To build simply clone and open the solution in Visual Studio 2015 and build unde
 
 Change resolution in ```MouseManager.cpp```
 
-Current up to date with Iva scripts
+Current up to date with Iva scripts ( https://github.com/hrt/AimRite/blob/master/main.cpp#L437)
